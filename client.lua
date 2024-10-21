@@ -1036,55 +1036,67 @@ function gPersonalmenu()
                 end
             end
 
-            RageUI.Separator('~b~ ↓ Vos papiers ↓')
-            
-            RageUI.List("→ Carte d'itentité", {"Voir", "Montrer"}, IddIndex, nil,{}, true, function(_, _, Selected, Index)
-                if (Selected) then
-                    if Index == 1 then
-                        TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
-                    elseif Index == 2 then
-                        if closestDistance ~= -1 and closestDistance <= 3.0 then
-                            TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer))
-                        else
-                            ESX.ShowNotification('Aucun joueur proche !')
-                        end
-                    end
-                end
-                IddIndex = Index
-            end)
+RageUI.Separator('~b~ ↓ Vos papiers ↓')
 
-            RageUI.List("→ Permis", {"Voir", "Montrer"}, PmIndex, nil,{}, true, function(_, _, Selected, Index)
-                if (Selected) then
-                    if Index == 1 then
-                        TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'driver')
-                    elseif Index == 2 then
-                        if closestDistance ~= -1 and closestDistance <= 3.0 then
-                            TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'driver')
-                        else
-                            ESX.ShowNotification('Aucun joueur proche !')
-                        end
-                    end
-                end
-                PmIndex = Index
-            end)
+-- Carte d'identité
+RageUI.List("→ Carte d'identité", {"Voir", "Montrer"}, IddIndex, nil, {}, true, function(_, _, Selected, Index)
+    if (Selected) then
+        if Index == 1 then
+            -- Voir sa propre carte d'identité
+            TriggerEvent("vms_document:showMyDocument", "id_card")
+        elseif Index == 2 then
+            -- Montrer la carte d'identité à un joueur proche
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+            if closestDistance ~= -1 and closestDistance <= 3.0 then
+                TriggerEvent("vms_document:showMyDocument", "id_card")
+            else
+                ESX.ShowNotification('Aucun joueur proche !')
+            end
+        end
+    end
+    IddIndex = Index
+end)
 
-            RageUI.List("→ Port d'arme", {"Voir", "Montrer"}, Pdarme, nil,{}, true, function(_, _, Selected, Index)
-                if (Selected) then
-                    if Index == 1 then
-                        TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()), 'weapon')
-                    elseif Index == 2 then
-                        if closestDistance ~= -1 and closestDistance <= 3.0 then
-                            TriggerServerEvent('jsfour-idcard:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(closestPlayer), 'weapon')
-                        else
-                            ESX.ShowNotification('Aucun joueur proche !')
-                        end
-                    end
-                end
-                Pdarme = Index
-            end)
+-- Permis de conduire
+RageUI.List("→ Permis", {"Voir", "Montrer"}, PmIndex, nil, {}, true, function(_, _, Selected, Index)
+    if (Selected) then
+        if Index == 1 then
+            -- Voir son permis de conduire
+            TriggerEvent("vms_document:showMyDocument", "id_drive")
+        elseif Index == 2 then
+            -- Montrer le permis de conduire à un joueur proche
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+            if closestDistance ~= -1 and closestDistance <= 3.0 then
+                TriggerEvent("vms_document:showMyDocument", "id_drive")
+            else
+                ESX.ShowNotification('Aucun joueur proche !')
+            end
+        end
+    end
+    PmIndex = Index
+end)
 
-            end, function()
-            end)
+-- Permis de port d'arme
+RageUI.List("→ Port d'arme", {"Voir", "Montrer"}, Pdarme, nil, {}, true, function(_, _, Selected, Index)
+    if (Selected) then
+        if Index == 1 then
+            -- Voir son permis de port d'arme
+            TriggerEvent("vms_document:showMyDocument", "id_weapon")
+        elseif Index == 2 then
+            -- Montrer le permis de port d'arme à un joueur proche
+            local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+            if closestDistance ~= -1 and closestDistance <= 3.0 then
+                TriggerEvent("vms_document:showMyDocument", "id_weapon")
+            else
+                ESX.ShowNotification('Aucun joueur proche !')
+            end
+        end
+    end
+    Pdarme = Index
+end)
+
+end, function()
+end)
 
             RageUI.IsVisible(Mportefeuilleli, true, true, true, function()
                 RageUI.ButtonWithStyle("Donner", nil, {RightBadge = RageUI.BadgeStyle.Lock}, true, function(Hovered,Active,Selected)
